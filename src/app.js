@@ -40,7 +40,10 @@ app.use(
 initializePassport(app)
 
 app.get('/', (req,res,next) =>{
+
+    console.log(req.user)
     res.render('index',{user: req.user})
+
 
 })
 

@@ -18,6 +18,8 @@ async function getUsernameById(id) {
     const user = await prisma.user.findUnique({
         where: {id}
     })
+
+    return user
 }
 
 

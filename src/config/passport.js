@@ -47,7 +47,7 @@ function initializePassport(app){
 
         try{
 
-            const user = queries.getUsernameById(id = id)
+            const user = await queries.getUsernameById(id = id)
     
             done(null, user)
 
