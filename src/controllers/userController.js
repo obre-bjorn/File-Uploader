@@ -1,4 +1,5 @@
 const {body, validationResult}= require('express-validator')
+const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const queries = require('../db/queries')
 
@@ -70,7 +71,25 @@ const createUser = [ validateSignUpData, async (req,res,next) =>{
 
 }]
 
+
+const logInUser = passport.authenticate("local",{
+    successRedirect: '/',
+    failureRedirect: '/'
+})
+
+
+const logOutUser = (req,res,next) =>{
+    req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+}
+
 module.exports = {
     getCreateUser,
-    createUser
+    createUser,
+    logInUser,
+    logOutUser
 }

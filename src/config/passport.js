@@ -11,7 +11,7 @@ function initializePassport(app){
 
 
     passport.use(
-        new LocalStategy( async (username, password) =>{
+        new LocalStategy( async (username, password,done) =>{
             
             try{
                 
@@ -47,7 +47,7 @@ function initializePassport(app){
 
         try{
 
-            const user = queries.getUserByUsername(id = id)
+            const user = queries.getUsernameById(id = id)
     
             done(null, user)
 

@@ -5,10 +5,10 @@ const prisma = new PrismaClient()
 
 
 
-async function getUserByUsername(username){
+async function getUserByUsername(email){
 
     const user = await prisma.user.findUnique({
-        where : {username}
+        where : {email}
     })
 
     return user
