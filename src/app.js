@@ -5,8 +5,14 @@ const {prisma}  = require("./db/queries")
 
 
 const initializePassport = require('./config/passport')
+
+//Routes
 const userRouter = require('./routes/user')
 const fileRouter = require('./routes/file')
+const folderRouter = require('./routes/folder')
+
+const folderQueries = require('./db/folderQueries')
+
 
 const app = express()
 
@@ -40,10 +46,11 @@ app.use(
 
 initializePassport(app)
 
-app.get('/', (req,res,next) =>{
+app.get('/', async (req,res,next) =>{
 
-    console.log(req.user)
-    res.render('index',{user: req.user})
+    const folders =  await folderQueries.getAllFolders
+    
+    res.render('index',{user: req.user, folders})
 
 
 })
@@ -51,6 +58,8 @@ app.get('/', (req,res,next) =>{
 app.use('/',userRouter)
 
 app.use('/',fileRouter)
+
+app.use('/folder', folderRouter)
 
 
 app.listen(3000, () =>{

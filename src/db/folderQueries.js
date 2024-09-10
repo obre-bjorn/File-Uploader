@@ -30,8 +30,13 @@ async function getFolder(folderId){
     const folder = await prisma.folder.findUnique({
         where: {
             id : folderId
+        },
+        include:{
+            files: true
         }
     })
+
+    return folder
 
 }
 
@@ -59,7 +64,7 @@ async function deleteFolder(folderId){
 
 }
 
-modules.exports = {
+module.exports = {
     createFolder,
     getAllFolders,
     getFolder,
