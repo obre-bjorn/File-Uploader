@@ -6,19 +6,34 @@
 </head>
     <body>
     <% if (user) {%>
-        
+
         <h1>WELCOME BACK <%= user.username %></h1>
+        
+        <br>
 
+        <form action="/folder" method="post">
+            <h2>Create Folder</h2>
+
+            <label for="add-folder">Enter Folder Name</label>
+            <input id="add-folder" name="folder" type="text" required>
+
+            <input type="submit" value="Create Folder">
+
+        </form>
+
+
+
+        <br>
         <form action="/upload-file" method="post" enctype="multipart/form-data">
-            <h1>Upload your file here</h1>
-            <div>
-                <label for="username">File to be Uploaded</label>
-                <input id="file" name="file" type="file" placeholder="Upload file">
-            </div>
-
+            <h2>Upload your file here</h2>
+        
+            <input id="file" name="file" type="file" placeholder="Upload file" required>
             <input type="submit" value="Upload">
         </form>
 
+        
+
+        <br>
         <a href="/log-out">LOG OUT</a>
     <% } else { %>
 
