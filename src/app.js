@@ -6,6 +6,7 @@ const {prisma}  = require("./db/queries")
 
 const initializePassport = require('./config/passport')
 const userRouter = require('./routes/user')
+const fileRouter = require('./routes/file')
 
 const app = express()
 
@@ -48,6 +49,8 @@ app.get('/', (req,res,next) =>{
 })
 
 app.use('/',userRouter)
+
+app.use('/',fileRouter)
 
 
 app.listen(3000, () =>{

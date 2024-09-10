@@ -4,34 +4,46 @@
   <meta charset="UTF-8">
   <title></title>
 </head>
-<body>
-<% if (user) {%>
-    <h1>WELCOME BACK <%= user.username %></h1>
-    <a href="/log-out">LOG OUT</a>
-  <% } else { %>
+    <body>
+    <% if (user) {%>
+        
+        <h1>WELCOME BACK <%= user.username %></h1>
 
-        <h1>please log in</h1>
-
-         <%- include('partials/errors.ejs') %>
-
-        <form action="/log-in" method ="POST">
-
+        <form action="/upload-file" method="post" enctype="multipart/form-data">
+            <h1>Upload your file here</h1>
             <div>
-                <label for="username">Username</label>
-                <input id="username" name="username" type="email" placeholder="Enter email address">
-
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password">
+                <label for="username">File to be Uploaded</label>
+                <input id="file" name="file" type="file" placeholder="Upload file">
             </div>
 
-            <input type="submit" value="Login">
-
+            <input type="submit" value="Upload">
         </form>
 
-        <p>Do not have an account <a href="/sign-up">Sign Up</a> Here.</p>
+        <a href="/log-out">LOG OUT</a>
+    <% } else { %>
 
-    <%}%>
-</body>
+            <h1>please log in</h1>
+
+            <%- include('partials/errors.ejs') %>
+
+            <form action="/log-in" method ="POST">
+
+                <div>
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="email" placeholder="Enter email address">
+
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password">
+                </div>
+
+                <input type="submit" value="Login">
+
+            </form>
+
+            <p>Do not have an account <a href="/sign-up">Sign Up</a> Here.</p>
+
+        <%}%>
+    </body>
 </html>
