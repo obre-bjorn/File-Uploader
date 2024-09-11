@@ -48,9 +48,9 @@ initializePassport(app)
 
 app.get('/', async (req,res,next) =>{
 
-    const folders =  await folderQueries.getAllFolders
-    
-    res.render('index',{user: req.user, folders})
+    const folders =  await folderQueries.getAllFolders()
+    console.log(folders)
+    res.render('index',{user: req.user, folders : folders})
 
 
 })

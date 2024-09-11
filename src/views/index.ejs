@@ -31,10 +31,26 @@
             <input type="submit" value="Upload">
         </form>
 
-        
+        <br>
+
+        <hr>
+        <h1>Your Folders:</h1>
+        <% if (folders.length > 0) { %>
+
+            <% folders.forEach(function(folder) { %>
+                <a href="/folder/<%= folder.id %>">
+                    <h2> <%= folder.name %> </h2>
+                </a>
+        <% }) %>
+
+        <% } else { %>
+            <h2>No folders created yet</h2>
+        <% } %>
 
         <br>
+
         <a href="/log-out">LOG OUT</a>
+
     <% } else { %>
 
             <h1>please log in</h1>

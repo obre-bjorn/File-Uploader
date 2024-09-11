@@ -1,5 +1,6 @@
 const multer = require('multer')
 const path = require('path')
+const fileQueries = require('../db/fileQueries')
 
 
 const storage = multer.diskStorage({
@@ -21,6 +22,28 @@ const uploadFile = [ upload.single('file'),async function (req,res){
 
 }]
 
+
+async function getFileDetail(req,res,next){
+
+    try {
+        
+        const file = await fileQueries.getFileById(req.params.fileId)
+        res.render('file',{file})
+
+    } catch (error) {
+
+        console.log(error)
+        res.send('Something went wrong')
+
+    }
+
+}
+
+
+
+
 module.exports = {
-    uploadFile
+    upload,
+    uploadFile,
+    getFileDetail
 }

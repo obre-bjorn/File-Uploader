@@ -16,6 +16,7 @@ async function createFolder(name,userId){
 }
 
 
+
 async function getAllFolders(){
 
     const folders = await prisma.folder.findMany()
