@@ -41,6 +41,12 @@ const getCreateUser = (req,res,next) =>{
 
 }
 
+const getLoginUser = (req,res,next) =>{
+
+    res.render('login')
+
+}
+
 const createUser = [ validateSignUpData, async (req,res,next) =>{
 
     const errors = validationResult(req)
@@ -74,7 +80,7 @@ const createUser = [ validateSignUpData, async (req,res,next) =>{
 
 const logInUser = passport.authenticate("local",{
     successRedirect: '/',
-    failureRedirect: '/'
+    failureRedirect: '/log-in'
 })
 
 
@@ -83,7 +89,7 @@ const logOutUser = (req,res,next) =>{
     if (err) {
       return next(err);
     }
-    res.redirect("/");
+    res.redirect("/log-in");
   });
 }
 
@@ -91,5 +97,6 @@ module.exports = {
     getCreateUser,
     createUser,
     logInUser,
+    getLoginUser,
     logOutUser
 }

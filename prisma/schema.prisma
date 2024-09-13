@@ -37,6 +37,7 @@ model File {
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  size      BigInt
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   folder    Folder   @relation(fields: [folderId], references: [id])

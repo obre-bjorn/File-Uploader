@@ -4,7 +4,7 @@ const {PrismaSessionStore} = require("@quixo3/prisma-session-store")
 const {prisma}  = require("./db/queries")
 
 
-const initializePassport = require('./config/passport')
+const {isAuthenticated,initializePassport} = require('./config/passport')
 
 //Routes
 const userRouter = require('./routes/user')
@@ -46,7 +46,7 @@ app.use(
 
 initializePassport(app)
 
-app.get('/', async (req,res,next) =>{
+app.get('/', isAuthenticated, async (req,res,next) =>{
 
     const folders =  await folderQueries.getAllFolders()
     console.log(folders)

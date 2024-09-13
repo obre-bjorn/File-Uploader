@@ -5,9 +5,13 @@
   <title></title>
 </head>
     <body>
-    <% if (user) {%>
+        
+        <%- include('./partials/header.ejs') %>
+        <br>
+        <br>
 
-        <h1>WELCOME BACK <%= user.username %></h1>
+
+        <h1>WELCOME BACK👨‍🦱: <%= user.username %></h1>
         
         <br>
 
@@ -49,32 +53,12 @@
 
         <br>
 
-        <a href="/log-out">LOG OUT</a>
 
-    <% } else { %>
 
-            <h1>please log in</h1>
+    
 
-            <%- include('partials/errors.ejs') %>
+           
 
-            <form action="/log-in" method ="POST">
 
-                <div>
-                    <label for="username">Username</label>
-                    <input id="username" name="username" type="email" placeholder="Enter email address">
-
-                </div>
-                <div>
-                    <label for="password">Password</label>
-                    <input id="password" name="password" type="password">
-                </div>
-
-                <input type="submit" value="Login">
-
-            </form>
-
-            <p>Do not have an account <a href="/sign-up">Sign Up</a> Here.</p>
-
-        <%}%>
     </body>
 </html>

@@ -8,7 +8,10 @@ const router = Router()
 router.get('/sign-up',userController.getCreateUser)
 router.post('/sign-up', userController.createUser)
 
+router.get('/log-in',userController.getLoginUser)
 router.post('/log-in', userController.logInUser)
+
+
 router.get('/log-out', userController.logOutUser)
 
 

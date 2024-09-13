@@ -1,7 +1,7 @@
 const {prisma} = require('./queries')
 
 
-async function createFile(url,userId,folderId) {
+async function createFile(url,userId,folderId,fileSize) {
 
 
     try {
@@ -10,7 +10,8 @@ async function createFile(url,userId,folderId) {
             data:{
                 url : url,
                 userId: userId,
-                folderId: folderId
+                folderId: folderId,
+                size: fileSize
             }
         })
         

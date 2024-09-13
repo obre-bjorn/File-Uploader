@@ -59,6 +59,23 @@ function initializePassport(app){
     })
 }
 
+function isAuthenticated(req,res,next){
+    
+    const isUserAuthenticated = req.isAuthenticated()
+
+    if(isUserAuthenticated){
+        return next()
+    }else{
+        res.redirect('/log-in')
+    }
 
 
-module.exports =  initializePassport
+
+}
+
+
+
+module.exports =  {
+    initializePassport,
+    isAuthenticated
+}
