@@ -1,21 +1,20 @@
 const multer = require('multer')
 const path = require('path')
+
+
 const fileQueries = require('../db/fileQueries')
 
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '..','..', 'public', 'uploads'));
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
-});
 
-const upload = multer({storage})
+
+
+const upload = multer({storage:multer.memoryStorage()})
 
 
 const uploadFile = [ upload.single('file'),async function (req,res){
+
+
+   
 
     console.log(req.file)
     res.send(`file uploaded`)

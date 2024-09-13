@@ -1,6 +1,14 @@
 const queries = require('../db/folderQueries')
 const {createFile} = require('../db/fileQueries')
 const { upload } = require('./fileController')
+const  path = require('path')
+
+
+const {createClient} = require('@supabase/supabase-js')
+
+
+require('dotenv').config()
+const supabase = createClient(process.env.PROJECT_URL,process.env.SECRET_KEY)
 
 
 async function createFolder(req,res,next){
@@ -35,9 +43,24 @@ async function getAllFolders(req,res,next){
 const createFileToFolder = [ upload.single('file'), async (req,res,next) => {
 
     try {
-        console.log(req.file)
-        // const file = await createFile(req.file.path, req.user.id,req.params.folderId)
 
+
+        console.log(req.file)
+        const fileExt = path.extname(req.file.originalname)
+
+        const{data,error} = await supabase
+            .storage
+            .from('file_uploader')
+            .upload(`${req.user.id}/${Date.now()}${fileExt}`,req.file.buffer,
+                {
+                    cacheControl: '3600',
+                    upsert: false
+                }
+            )
+
+        console.log('Data: ',data)
+        console.log('Error',error)
+        // const file = await createFile(req.file.path, req.user.id,req.params.folderId)
         res.redirect(`/folder/${req.params.folderId}`)
 
         
