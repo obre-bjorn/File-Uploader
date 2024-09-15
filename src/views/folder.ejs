@@ -23,8 +23,12 @@
     <% if (folder.files.length > 0) { %>
 
         <% folder.files.forEach(file => { %>
-            <a href="/file/<%= file.id %>">
+            <a href="/folder/<%= folder.id %>/file/<%= file.id %>">
                 <h2><%= file.url %></h2> <!-- Corrected to access the file URL -->
+            </a>
+
+            <a href="/download">
+                <button>Download</button>
             </a>
         <% }) %>
 

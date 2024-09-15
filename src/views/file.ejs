@@ -12,5 +12,9 @@
 
     <h1>File Details</h1>
     <h1><%= file.name %></h1>
+    <h2><%= file.size %></h2>
+    <h2><%= file.createdAt%></h2>
+
+    <a href="/download/<%= file.id %>"><button>Download</button></a>
 </body>
 </html>

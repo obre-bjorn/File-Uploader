@@ -1,14 +1,12 @@
-const multer = require('multer')
+
 const path = require('path')
+
+//Imported from folder controller
+const {upload, supabase} = require('../config/storage')
 
 
 const fileQueries = require('../db/fileQueries')
 
-
-
-
-
-const upload = multer({storage:multer.memoryStorage()})
 
 
 const uploadFile = [ upload.single('file'),async function (req,res){
@@ -38,11 +36,36 @@ async function getFileDetail(req,res,next){
 
 }
 
+async function downloadFile(req,res,next){
+
+
+    const file = await fileQueries.getFileById(req.params.id)
+
+    const{ data,error } = await supabase
+                                .storage
+                                .from('file_uploader')
+                                .download(file.url)
+
+
+    if(error){
+        res.send('Something went wrong when downloading the file')
+    }else{
+
+
+        res.redirect(`/folder/${file.folder.id}`)
+    }
+
+
+
+
+
+}
+
 
 
 
 module.exports = {
-    upload,
     uploadFile,
-    getFileDetail
+    getFileDetail,
+    downloadFile,
 }

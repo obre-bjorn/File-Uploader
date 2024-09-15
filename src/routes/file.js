@@ -8,8 +8,8 @@ const router = Router()
 
 
 
+router.get('/folder/:folderId/file/:fileId',isAuthenticated,fileController.getFileDetail)
 router.post('/upload-file',isAuthenticated,fileController.uploadFile)
-router.get('folder/:folderId/:fileId',isAuthenticated,fileController.getFileDetail)
 
 
 module.exports = router

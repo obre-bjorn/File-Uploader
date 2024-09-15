@@ -1,13 +1,13 @@
 const {prisma} = require('./queries')
 
-
-async function createFile(url,userId,folderId,fileSize) {
+async function createFile(name,url,userId,folderId,fileSize) {
 
 
     try {
 
         const file = await prisma.file.create({
             data:{
+                name: name,
                 url : url,
                 userId: userId,
                 folderId: folderId,
@@ -16,7 +16,7 @@ async function createFile(url,userId,folderId,fileSize) {
         })
         
     } catch (error) {
-        console.log(errors);
+        console.log(error);
         
     }
     
@@ -29,6 +29,9 @@ async function getFileById(fileId){
         const file = await prisma.file.findUnique({
             where: {
                 id : fileId
+            },
+            include:{
+                folder: true
             }
         })
 

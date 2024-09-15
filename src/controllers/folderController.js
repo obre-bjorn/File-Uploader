@@ -1,15 +1,11 @@
 const queries = require('../db/folderQueries')
+
 const {createFile} = require('../db/fileQueries')
-const { upload } = require('./fileController')
+// const { uploadMiddleware } = require('./fileController')
 const  path = require('path')
-const {isAuthenticated} = require('../config/passport')
 
 
-const {createClient} = require('@supabase/supabase-js')
-
-
-require('dotenv').config()
-const supabase = createClient(process.env.PROJECT_URL,process.env.SECRET_KEY)
+const {upload, supabase} = require('../config/storage')
 
 
 async function createFolder(req,res,next){
@@ -40,47 +36,52 @@ async function getAllFolders(req,res,next){
 
 }
 
+const createFileToFolder = [ upload.single(`file`), async (req, res, next) => {
 
-const createFileToFolder = [ upload.single('file'), async (req,res,next) => {
+        try {
 
-    try {
+            const fileExt = path.extname(req.file.originalname)
 
+            const folder = await queries.getFolder(parseInt(req.params.folderId))
+            const fileName = req.file.originalname.split('.')[0]
 
-        console.log(req.file)
-        const fileExt = path.extname(req.file.originalname)
-
-
-        const folder = await queries.getFolder(parseInt(req.params.folderId))
-
-        const{data,error} = await supabase
-            .storage
-            .from('file_uploader')
-            .upload(`${req.user.id}/${folder.name}/${Date.now()}${fileExt}`,req.file.buffer,
-                {
-                    cacheControl: '3600',
-                    upsert: false
-                }
-            )
+            const { data, error } = await supabase
+                .storage
+                .from('file_uploader')
+                .upload(`${req.user.id}/${folder.name}/${fileName}_${Date.now()}${fileExt}`, req.file.buffer,
+                    {
+                        cacheControl: '3600',
+                        upsert: false
+                    }
+                )
 
 
-        if(error){
-            res.send('something went wrong')
-        }else{
-            console.log(data)
-            // const file = await createFile(req.file.path, req.user.id,req.params.folderId)
+            if (error) {
+                res.send('something went wrong')
+            } else {
+                console.log(data)
+                const file = await createFile(
+                    fileName,
+                    data.fullPath,
+                    req.user.id,
+                    parseInt(req.params.folderId),
+                    req.file.size)
+
+
+            }
+
+
+            res.redirect(`/folder/${req.params.folderId}`)
+
+
+        } catch (error) {
+            console.log(error)
+            res.send('Something went wrong')
         }
 
-        
-        res.redirect(`/folder/${req.params.folderId}`)
 
-        
-    } catch (error) {
-        console.log(error)
-        res.send('Something went wrong')
-    }
+    }]
 
-
-}]
 
 
 async function getFolderById(req,res,next){
@@ -130,6 +131,7 @@ async function deleteFolder(req,res,next) {
 
     } catch (error) {
         console.log(error);
+        res.send('Something went wrong')
         
     }
     
@@ -138,6 +140,7 @@ async function deleteFolder(req,res,next) {
 
 
 module.exports = {
+    supabase,
     createFolder,
     getFolderById,
     updateFolder,
