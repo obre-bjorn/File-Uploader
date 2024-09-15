@@ -24,7 +24,8 @@ async function getFileDetail(req,res,next){
 
     try {
         
-        const file = await fileQueries.getFileById(req.params.fileId)
+        const file = await fileQueries.getFileById(parseInt(req.params.fileId))
+        console.log(file)
         res.render('file',{file})
 
     } catch (error) {
@@ -38,26 +39,32 @@ async function getFileDetail(req,res,next){
 
 async function downloadFile(req,res,next){
 
+    console.log(req.params)    
 
-    const file = await fileQueries.getFileById(req.params.id)
-
+    const file = await fileQueries.getFileById(parseInt(req.params.fileId))
+    const filePath = file.url.replace('file_uploader/', '');
     const{ data,error } = await supabase
                                 .storage
                                 .from('file_uploader')
-                                .download(file.url)
+                                .download(filePath)
 
 
     if(error){
+        
         res.send('Something went wrong when downloading the file')
+
     }else{
 
+        const buffer = Buffer.from(await data.arrayBuffer());
 
-        res.redirect(`/folder/${file.folder.id}`)
+        // Set headers for file download
+        res.setHeader('Content-Disposition', `attachment; filename="${file.name}"`);
+        res.setHeader('Content-Type', data.type);
+        res.setHeader('Content-Length', buffer.length);
+
+        // Send the file as a response
+        res.send(buffer);
     }
-
-
-
-
 
 }
 
