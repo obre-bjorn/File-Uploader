@@ -45,6 +45,9 @@
                 <a href="/folder/<%= folder.id %>">
                     <h2> <%= folder.name %> </h2>
                 </a>
+                <a href="/folder/delete/<%= folder.id %>">
+                    <button>Delete Folder</button>
+                </a>
         <% }) %>
 
         <% } else { %>

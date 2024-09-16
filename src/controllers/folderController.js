@@ -124,10 +124,9 @@ async function deleteFolder(req,res,next) {
 
     try {
         
-        await queries.deleteFolder(req.params.id)
+        await queries.deleteFolder(parseInt(req.params.id))
 
         res.redirect('/')
-
 
     } catch (error) {
         console.log(error);

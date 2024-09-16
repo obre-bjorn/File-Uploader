@@ -57,6 +57,13 @@ async function updateFolder(folderId,folderName) {
 
 async function deleteFolder(folderId){
 
+    // Recursively or Cascade delete files in the Folder
+    const deletedFilesInFolders = await prisma.file.deleteMany({
+        where : {
+            folderId : folderId
+        }
+    })
+
     const folder = await prisma.folder.delete({
         where:{
             id : folderId
